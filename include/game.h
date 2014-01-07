@@ -13,6 +13,7 @@
 #include <SDL2/SDL.h>
 #include "timer.h"
 #include "window.h"
+#include "shader.h"
 
 class Game
 {
@@ -29,6 +30,8 @@ class Game
 
 	private:
 		Timer* pTimer;
+		Shader* pShader;
+
 		bool m_IsRunning;
 };
 

@@ -1,19 +1,19 @@
 CXX = g++
-CXXFLAGS = -Wall
+CXXFLAG = -Wall -DGLEW_STATIC 
 
 SRC = $(PWD)/src/*.cpp
 INCLUDE = -I $(PWD)/include
-OBJ = main.o game.o window.o timer.o
+OBJ = main.o game.o window.o shader.o timer.o
 
-LIB = -llua5.2 -lSDL2main -lSDL2
+LIB = -lSDL2main -lSDL2 -lGLEW -lGL -lGLU
 
 OUT_EXE = pop3d 
 
 $(OUT_EXE): $(OBJ)
-	$(CXX) $(SRC) $(CXXFLAGS) $(INCLUDE) $(LIB) -g -o $@
+	$(CXX) $(SRC) $(CXXFLAG) $(INCLUDE) $(LIB) -g -o $@
 
 %.o: $(PWD)/src/%.cpp 
-	$(CXX) $< $(CXXFLAG) $(INCLUDE) $(LIBS) -c
+	$(CXX) $< $(CXXFLAG) $(INCLUDE) $(LIB) -c
 
 clean:
 	rm -fr *.o

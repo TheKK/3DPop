@@ -18,12 +18,23 @@ Game::~Game ()
 
 bool
 Game::Init ()
-{	
-	int screenWidth = 500;
-	int screenHeight = 500;
+{
+	//Status for return	
+	bool status;
+
+	int screenWidth = 800;
+	int screenHeight = 800;
 	char* screenTitle = "POP3D";
 
-	bool status = Window::Init( screenTitle, screenWidth, screenHeight );
+	char* vertexShaderPath = "./shader/basic.vs";
+	char* fragmentShaderPath = "./shader/basic.fs";
+
+	//Initialize window properties
+	status = Window::Init( screenTitle, screenWidth, screenHeight );
+
+	//Initialize and setup shader
+	pShader = new Shader();
+	status = pShader->BuildShaderProgram( vertexShaderPath, fragmentShaderPath );
 
 	return status;
 }
@@ -35,6 +46,10 @@ Game::EventHandler ( SDL_Event* event )
 		case SDL_KEYDOWN:
 			if( event->key.keysym.sym == SDLK_q )
 				m_IsRunning = false;
+
+			if( event->key.keysym.sym == SDLK_c )
+				glClearColor( 1.0f, 0.0f, 0.0f, 1.0f );
+
 			break;
 	};
 }
@@ -85,4 +100,5 @@ Game::Execute ()
 void
 Game::CleanUp ()
 {
+	delete pTimer;
 }

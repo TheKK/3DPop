@@ -9,7 +9,9 @@
 #define WINDOW_H
 
 #include <iostream>
+#include <GL/glew.h>		//glew must diclare brfore SDL_opengl.h
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_opengl.h>
 
 class Window
 {
@@ -25,7 +27,7 @@ class Window
 	private:
 		//SDL stuffs
 		static SDL_Window* m_Window;
-		static SDL_Renderer* m_Renderer;
+		static SDL_GLContext m_GLContext;
 };
 
 #endif

@@ -12,6 +12,7 @@
 int
 main ( int argc, char* argv[] )
 {
+	//Create and initialize main game
 	Game* game;
 	game = new Game();
 
