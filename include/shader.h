@@ -25,6 +25,8 @@ class Shader
 
 		bool BuildShaderProgram( string vertexShader, string fragmentShader );
 
+		//Return m_ShaderProgram
+		GLuint GetShaderProgram();
 	private:
 		//Shader and program
 		GLuint m_VertexShader;

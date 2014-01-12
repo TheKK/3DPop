@@ -22,11 +22,13 @@ class Window
 		static bool Init( char* windowTitle, int width, int height );
 		static void Clear();
 		static void Present();
+		static void Event( SDL_Event* event );
 		static void Quit();
 
 	private:
-		//SDL stuffs
+		//SDL window
 		static SDL_Window* m_Window;
+		//OpenGL context in SDL
 		static SDL_GLContext m_GLContext;
 };
 

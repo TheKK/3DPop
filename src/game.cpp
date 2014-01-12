@@ -19,7 +19,7 @@ Game::~Game ()
 bool
 Game::Init ()
 {
-	//Status for return	
+	//Status flag
 	bool status;
 
 	int screenWidth = 800;
@@ -31,11 +31,34 @@ Game::Init ()
 
 	//Initialize window properties
 	status = Window::Init( screenTitle, screenWidth, screenHeight );
+	if( status == false )
+		return status;
 
 	//Initialize and setup shader
 	pShader = new Shader();
 	status = pShader->BuildShaderProgram( vertexShaderPath, fragmentShaderPath );
+	if( status == false )
+		return status;
 
+	//Initialize and setup cube object
+	pCube = new Object();
+	pCube->SetShader( pShader->GetShaderProgram() ); 
+	status = pCube->LoadOBJ( "obj/cube.obj" );
+	if( status == false )
+		return status;
+
+	test1 = new Object();
+	test1->SetShader( pShader->GetShaderProgram() ); 
+	status = test1->LoadOBJ( "obj/test1.obj" );
+	if( status == false )
+		return status;
+
+	test2 = new Object();
+	test2->SetShader( pShader->GetShaderProgram() ); 
+	status = test2->LoadOBJ( "obj/test2.obj" );
+	if( status == false )
+		return status;
+	
 	return status;
 }
 
@@ -52,6 +75,10 @@ Game::EventHandler ( SDL_Event* event )
 
 			break;
 	};
+
+	Window::Event( event );
+
+	pCube->Event( event );
 }
 
 void
@@ -63,6 +90,10 @@ void
 Game::Render ()
 {
 	Window::Clear();
+	
+	test1->Draw();
+	test2->Draw();
+
 	Window::Present();
 }
 
@@ -73,7 +104,7 @@ Game::Execute ()
 		return 1;
 	else{
 		pTimer = new Timer();
-		
+
 		m_IsRunning = true;
 
 		SDL_Event event;
@@ -101,4 +132,5 @@ void
 Game::CleanUp ()
 {
 	delete pTimer;
+	delete pCube;
 }

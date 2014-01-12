@@ -3,7 +3,7 @@ CXXFLAG = -Wall -DGLEW_STATIC
 
 SRC = $(PWD)/src/*.cpp
 INCLUDE = -I $(PWD)/include
-OBJ = main.o game.o window.o shader.o timer.o
+OBJ = main.o game.o window.o shader.o object.o timer.o
 
 LIB = -lSDL2main -lSDL2 -lGLEW -lGL -lGLU
 

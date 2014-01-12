@@ -38,7 +38,7 @@ Window::Init ( char* windowTitle, int width, int height )
 	glewInit();
 
 	//Set OpenGL clear color
-	glClearColor( 0.0f, 1.0f, 1.0f, 1.0f );
+	glClearColor( 0.1f, 0.1f, 0.1f, 1.0f );
 
 	//Check error
 	GLenum error = glGetError();
@@ -62,6 +62,18 @@ void
 Window::Present ()
 {
 	SDL_GL_SwapWindow( m_Window );
+}
+
+void
+Window::Event ( SDL_Event* event )
+{
+	switch( event->type ){
+		case SDL_WINDOWEVENT:
+			if( event->window.event == SDL_WINDOWEVENT_RESIZED ){
+				glViewport( 0, 0, event->window.data1, event->window.data2 );
+			}
+			break;
+	}
 }
 
 void

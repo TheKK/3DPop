@@ -14,6 +14,7 @@
 #include "timer.h"
 #include "window.h"
 #include "shader.h"
+#include "object.h"
 
 class Game
 {
@@ -21,18 +22,24 @@ class Game
 		Game();
 		~Game();
 
-		bool Init();
-		void EventHandler( SDL_Event* event );
-		void Update();
-		void Render();
+		//Start main game
 		int Execute();
-		void CleanUp();
 
 	private:
 		Timer* pTimer;
 		Shader* pShader;
 
+		Object* pCube;
+		Object* test1;
+		Object* test2;
+
 		bool m_IsRunning;
+
+		bool Init();
+		void EventHandler( SDL_Event* event );
+		void Update();
+		void Render();
+		void CleanUp();
 };
 
 #endif

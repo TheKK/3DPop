@@ -11,10 +11,18 @@ Shader::Shader ()
 {
 }
 
+Shader::~Shader ()
+{
+	glDeleteProgram( m_ShaderProgram );
+	glDeleteShader( m_VertexShader );
+	glDeleteShader( m_FragmentShader );
+}
+
 bool
 Shader::BuildShaderProgram ( string vertexShaderPath, string fragmentShaderPath )
 {
-	string source;	GLint errorStatus;
+	string source;
+	GLint errorStatus;
 
 	//Load, create and compile vertex shader
 	source = LoadString( vertexShaderPath );
@@ -77,6 +85,10 @@ Shader::BuildShaderProgram ( string vertexShaderPath, string fragmentShaderPath 
 	glLinkProgram( m_ShaderProgram );
 	glUseProgram( m_ShaderProgram );	
 
+	//Enable depth test
+	glEnable( GL_DEPTH_TEST );
+	glDepthFunc( GL_LESS );
+
 	return true;
 }
 
@@ -98,4 +110,10 @@ Shader::LoadString ( string filePath )
 
 	//Return the string pointer
 	return buffer.str();
+}
+
+GLuint
+Shader::GetShaderProgram ()
+{
+	return m_ShaderProgram;
 }
