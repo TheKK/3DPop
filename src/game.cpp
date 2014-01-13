@@ -9,7 +9,7 @@
 
 Game::Game ()
 {
-	m_Render = false;
+	m_Is3D = false;
 }
 
 Game::~Game ()
@@ -33,32 +33,32 @@ Game::Init ()
 		return status;
 
 	//Initialize and setup shader
-	pRightShader = new Shader();
-	status = pRightShader->BuildShaderProgram( "shader/right.vs", "shader/right.fs" );
+	pShader = new Shader();
+	status = pShader->BuildShaderProgram( "shader/right.vs", "shader/right.fs" );
 	if( status == false )
 		return status;
 
 	//Initialize and setup cube object
 	pCube = new Object( 5, 5, 0 );
-	pCube->SetShader( pRightShader->GetShaderProgram() );
+	pCube->SetShader( pShader->GetShaderProgram() );
 	status = pCube->LoadOBJ( "obj/cube.obj" );
 	if( status == false )
 		return status;
 
 	pStick = new Object(-5, 5, 0 );
-	pStick->SetShader( pRightShader->GetShaderProgram() );
+	pStick->SetShader( pShader->GetShaderProgram() );
 	status = pStick->LoadOBJ( "obj/stick.obj" );
 	if( status == false )
 		return status;
 
 	pSphere = new Object(-5,-5, 0 );
-	pSphere->SetShader( pRightShader->GetShaderProgram() );
+	pSphere->SetShader( pShader->GetShaderProgram() );
 	status = pSphere->LoadOBJ( "obj/sphere.obj" );
 	if( status == false )
 		return status;
 
 	pMonkey = new Object( 5,-5, 0 );
-	pMonkey->SetShader( pRightShader->GetShaderProgram() );
+	pMonkey->SetShader( pShader->GetShaderProgram() );
 	status = pMonkey->LoadOBJ( "obj/monkey.obj" );
 	if( status == false )
 		return status;
@@ -75,64 +75,67 @@ Game::EventHandler ( SDL_Event* event )
 				m_IsRunning = false;
 
 			if( event->key.keysym.sym == SDLK_e ){
-				if( m_Render )
-					m_Render = false;
+				if( m_Is3D )
+					m_Is3D = false;
 				else
-					m_Render = true;
+					m_Is3D = true;
 			}
-
-			if( event->key.keysym.sym == SDLK_UP )
-				pMonkey->Move( 0.05, 0, 0 );
-
 			break;
 	};
 
 	Window::Event( event );
 
-	pRightShader->Event( event );
+	pShader->Event( event );
 }
 
 void
 Game::Update ()
 {
-	pRightShader->Update();
+	pShader->Update();
 }
 
 void
 Game::Render ()
 {
 	Window::Clear();
-	
-	//Right eye part
-	pRightShader->SetColorMask( true, true, true, true );
 
-	pRightShader->SetColorMask( true, false, false, true );
-	pRightShader->SetRight();
+	if( m_Is3D ){	
+		//Right eye part
+		pShader->SetColorMask( true, true, true, true );
 
-	pMonkey->Draw();
-	pSphere->Draw();
-	pStick->Draw();
-	pCube->Draw();
+		pShader->SetColorMask( true, false, false, true );
+		pShader->SetRight();
 
-	pRightShader->SetColorMask( true, true, true, true );
+		pMonkey->Draw();
+		pSphere->Draw();
+		pStick->Draw();
+		pCube->Draw();
 
-	glDrawBuffer( GL_BACK );
-	
-	glClear( GL_DEPTH_BUFFER_BIT );
+		pShader->SetColorMask( true, true, true, true );
 
-	//Left eye part
-	pRightShader->SetColorMask( true, true ,true, true );
+		glDrawBuffer( GL_BACK );
+		
+		glClear( GL_DEPTH_BUFFER_BIT );
 
-	pRightShader->SetColorMask( false, false ,true, true );
-	pRightShader->SetLeft();
+		//Left eye part
+		pShader->SetColorMask( true, true ,true, true );
 
-	pMonkey->Draw();
-	pSphere->Draw();
-	pStick->Draw();
-	pCube->Draw();
+		pShader->SetColorMask( false, false ,true, true );
+		pShader->SetLeft();
 
-	pRightShader->SetColorMask( true, true, true, true );
+		pMonkey->Draw();
+		pSphere->Draw();
+		pStick->Draw();
+		pCube->Draw();
 
+		pShader->SetColorMask( true, true, true, true );
+	}
+	else{
+		pMonkey->Draw();
+		pSphere->Draw();
+		pStick->Draw();
+		pCube->Draw();
+	}
 	Window::Present();
 }
 

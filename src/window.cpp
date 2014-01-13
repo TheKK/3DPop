@@ -50,6 +50,9 @@ Window::Init ( char* windowTitle, int width, int height )
 	//Create OpenGL context for window, m_Window
 	m_GLContext = SDL_GL_CreateContext( m_Window );
 
+	//Use double buffer
+	SDL_GL_SetAttribute( SDL_GL_DOUBLEBUFFER, SDL_TRUE );
+
 	//Force GLEW to use morden OpenGL method for checking functions
 	glewExperimental = GL_TRUE;
 	glewInit();

@@ -27,8 +27,7 @@ class Game
 
 	private:
 		Timer* pTimer;
-		Shader* pRightShader;
-		Shader* pLeftShader;
+		Shader* pShader;
 
 		Object* pCube;
 		Object* pStick;
@@ -36,7 +35,7 @@ class Game
 		Object* pSphere;
 
 		bool m_IsRunning;
-		bool m_Render;
+		bool m_Is3D;
 
 		bool Init();
 		void EventHandler( SDL_Event* event );

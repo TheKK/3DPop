@@ -20,9 +20,6 @@ uniform mat4 V;
 uniform mat4 P;
 
 void main () {
-	mat4 rightView = V;
-	rightView[ 0 ][ 3 ] += 1;
-
 	gl_Position = P * V * M * vec4( ( position_modelspace ), 1.0 );
 
 	//Out

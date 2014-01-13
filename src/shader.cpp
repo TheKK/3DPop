@@ -17,8 +17,7 @@ Shader::Shader ()
 			else
 				m_ViewMatrix[ i ][ j ] = 0;
 		}
-
-	//CameraRotateX( 90 * 3.1415 / 180 );
+	CameraRotateX( m_ViewMatrix, -1 * 3.14 / 2 );
 
 	//Initialze projection matrix
 	for( int i = 0; i < 4; i++ )
@@ -28,6 +27,7 @@ Shader::Shader ()
 	SetPerspective( 5, 5, 1, 100 );
 
 	m_ViewScale = 0.1;
+	m_ViewAngle = 0.03;
 
 	//Initialize move status
 	m_MovingRight = false;
@@ -197,9 +197,15 @@ Shader::Event ( SDL_Event* event )
 
 			if( event->motion.yrel != 0 )
 				CameraRotateX( m_ViewMatrix, event->motion.yrel / 200.0 );
+			break;
+
 		case SDL_MOUSEWHEEL:
-			//m_ViewScale += event->wheel.y / 10.0;	
-			
+			if( event->wheel.y > 0 )
+				m_ViewAngle += 0.005;
+			else if( event->wheel.y < 0 && m_ViewAngle - 0.005 > 0 )
+				m_ViewAngle -= 0.005;
+			else
+				m_ViewAngle = 0;
 			break;
 	}
 }
@@ -322,7 +328,7 @@ Shader::SetRight ()
 
 	rightView[ 0 ][ 3 ] += m_ViewScale; 
 
-	CameraRotateZ( rightView, 0.03 );
+	CameraRotateZ( rightView, m_ViewAngle );
 
 	glUniformMatrix4fv( m_UniViewMatrix, 1, GL_TRUE, ( GLfloat* )rightView );
 }
@@ -337,7 +343,7 @@ Shader::SetLeft ()
 
 	leftView[ 0 ][ 3 ] -= m_ViewScale; 
 
-	CameraRotateZ( leftView,-0.03 );
+	CameraRotateZ( leftView, -1 * m_ViewAngle );
 
 	glUniformMatrix4fv( m_UniViewMatrix, 1, GL_TRUE, ( GLfloat* )leftView );
 }

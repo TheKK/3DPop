@@ -57,6 +57,7 @@ class Shader
 		float m_ProjectMatrix[ 4 ][ 4 ];
 
 		float m_ViewScale;
+		float m_ViewAngle;
 
 		//Moving status
 		bool m_MovingRight, m_MovingLeft, m_MovingFront, m_MovingBack;
