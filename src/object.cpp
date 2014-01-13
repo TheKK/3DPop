@@ -7,8 +7,18 @@
 
 #include "object.h"
 
-Object::Object ()
+Object::Object ( float x, float y, float z )
 {
+	//Initialize model matrix
+	for( int i = 0; i < 4; i++ )
+		for( int j = 0; j < 4; j++ ){
+			if( i == j )
+				m_ModelMatrix[ i ][ j ] = 1;
+			else
+				m_ModelMatrix[ i ][ j ] = 0;
+		}
+
+	SetPosition( x, y, z );
 }
 
 Object::~Object ()
@@ -25,29 +35,49 @@ Object::Draw ()
 	//Bind our array setting
 	glBindVertexArray( m_VAO );
 
+	glUniformMatrix4fv( m_UniModelMatrix, 1, GL_TRUE, ( GLfloat* )m_ModelMatrix );
+
 	//Draw
 	glDrawElements( GL_TRIANGLES, m_ElementNum, GL_UNSIGNED_INT, 0 );
 }
 
 void
-Object::Event ( SDL_Event* evnet )
+Object::Event ( SDL_Event* event )
 {
-	switch( evnet->type ){
+	switch( event->type ){
 		case SDL_KEYDOWN:
 			break;
 	}
 }
 
 void
+Object::Move( float x, float y, float z )
+{
+	m_ModelMatrix[ 0 ][ 3 ] += x;
+	m_ModelMatrix[ 1 ][ 3 ] += y;
+	m_ModelMatrix[ 2 ][ 3 ] += z;
+}
+
+void
+Object::SetPosition( float x, float y, float z )
+{
+	m_ModelMatrix[ 0 ][ 3 ] = x;
+	m_ModelMatrix[ 1 ][ 3 ] = y;
+	m_ModelMatrix[ 2 ][ 3 ] = z;
+}
+
+void
 Object::SetShader ( GLuint shaderProgram )
 {
 	m_ShaderProgram = shaderProgram;
+
+	//Get uniform location in GLSL
+	m_UniModelMatrix = glGetUniformLocation( m_ShaderProgram, "M" );
 }
 
 bool
 Object::LoadOBJ ( char* path )
 {
-	/*OBJ LOADER PATR*/
 	//Contain data from .obj file
 	vector<GLfloat> vertex;
 	vector<GLfloat> normal;
@@ -56,7 +86,6 @@ Object::LoadOBJ ( char* path )
 	if( OBJConvert( path, vertex, normal, element ) == false )
 		return false;
 
-	/*OPENGL PART*/
 	//Link to our shader program
 	glUseProgram( m_ShaderProgram );
 

@@ -1,11 +1,10 @@
 /*
+ * Author: KK <thumbd03803@gmail.com>
+ *
+ * basic.vs
+ *
+ */
 
-vertexShader
-
-author: TheKK <thumbd03803@gmail.com>
-date: 10/16/2013
-
-*/
 #version 400 core
 
 layout( location = 0 ) in vec3 position_modelspace;
@@ -20,10 +19,13 @@ uniform mat4 V;
 //Projection matrix
 uniform mat4 P;
 
-
 void main () {
-	gl_Position =  vec4( ( position_modelspace ), 1.0 );
+	mat4 leftView = V;
+	leftView[ 0 ][ 3 ] -= 1;
 
+	gl_Position = P * leftView * M * vec4( ( position_modelspace ), 1.0 );
+
+	//Out
 	color = normal_modelspace;
-};
+}
 

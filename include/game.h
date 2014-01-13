@@ -27,13 +27,16 @@ class Game
 
 	private:
 		Timer* pTimer;
-		Shader* pShader;
+		Shader* pRightShader;
+		Shader* pLeftShader;
 
 		Object* pCube;
-		Object* test1;
-		Object* test2;
+		Object* pStick;
+		Object* pMonkey;
+		Object* pSphere;
 
 		bool m_IsRunning;
+		bool m_Render;
 
 		bool Init();
 		void EventHandler( SDL_Event* event );
