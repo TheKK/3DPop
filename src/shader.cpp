@@ -24,7 +24,7 @@ Shader::Shader ()
 		for( int j = 0; j < 4; j++ )
 			m_ProjectMatrix[ i ][ j ] = 0;
 
-	SetPerspective( 5, 5, 1, 100 );
+	SetPerspective( 16, 9, 1, 100 );
 
 	m_ViewScale = 0.1;
 	m_ViewAngle = 0.03;
@@ -170,11 +170,22 @@ Shader::Event ( SDL_Event* event )
 				m_ViewScale = 0.3;
 				
 			if( event->key.keysym.sym == SDLK_KP_4 )
-				m_ViewScale = 0.4;
-				
+				SetPerspective( 16, 9, 0.5, 100 );
+
 			if( event->key.keysym.sym == SDLK_KP_5 )
-				m_ViewScale = 0.5;
-				
+				SetPerspective( 16, 9, 1, 100 );
+
+			if( event->key.keysym.sym == SDLK_KP_6 )
+				SetPerspective( 16, 9, 2, 100 );
+
+			if( event->key.keysym.sym == SDLK_KP_7 )
+				SetPerspective( 16, 9, 1, 50 );
+
+			if( event->key.keysym.sym == SDLK_KP_7 )
+				SetPerspective( 16, 9, 1, 100 );
+
+			if( event->key.keysym.sym == SDLK_KP_7 )
+				SetPerspective( 16, 9, 1, 200 );
 			break;
 
 		case SDL_KEYUP:
@@ -304,6 +315,7 @@ Shader::GetShaderProgram ()
 
 void
 Shader::SetColorMask ( bool r, bool g, bool b, bool a )
+
 {
 	glColorMask( r, g, b, a );
 }
@@ -311,8 +323,8 @@ Shader::SetColorMask ( bool r, bool g, bool b, bool a )
 void
 Shader::SetPerspective ( float width, float height, float near, float far )
 {
-	m_ProjectMatrix[ 0 ][ 0 ] = width;	//Width of projection plane
-	m_ProjectMatrix[ 1 ][ 1 ] = height;	//Height of projection plane
+	m_ProjectMatrix[ 0 ][ 0 ] = height;	//Height of projection plane
+	m_ProjectMatrix[ 1 ][ 1 ] = width;	//Width of projection plane
 	m_ProjectMatrix[ 2 ][ 2 ] = ( far + near ) / ( near - far );
 	m_ProjectMatrix[ 2 ][ 3 ] =-1.0;
 	m_ProjectMatrix[ 3 ][ 2 ] = ( 2.0 * far * near ) / ( near - far ); 

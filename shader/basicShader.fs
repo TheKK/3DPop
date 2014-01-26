@@ -19,5 +19,6 @@ float Grey ( vec3 color )
 
 void main()
 {
-	outColor = vec4( 0, 0, Grey( color ), 0.5 );	
+	/*outColor = vec4( Grey( color ), Grey( color ), 0.0, 1.0 );*/
+	outColor = vec4( 1.0, 1.0, 1.0, 1.0 );
 }

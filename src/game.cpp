@@ -23,9 +23,14 @@ Game::Init ()
 	//Status flag
 	bool status;
 
-	int screenWidth = 800;
-	int screenHeight = 800;
 	char* screenTitle = "POP3D";
+
+	int screenWidth = ScriptManager::GetInteger( "script/windowConfig.lua", "width" );
+	int screenHeight = ScriptManager::GetInteger( "script/windowConfig.lua", "height" );
+
+	char* vertexShaderPath = "shader/basicShader.vs";
+	char* fragmentShaderPath = "shader/basicShader.fs";
+
 
 	//Initialize window properties
 	status = Window::Init( screenTitle, screenWidth, screenHeight );
@@ -34,7 +39,7 @@ Game::Init ()
 
 	//Initialize and setup shader
 	pShader = new Shader();
-	status = pShader->BuildShaderProgram( "shader/right.vs", "shader/right.fs" );
+	status = pShader->BuildShaderProgram( vertexShaderPath, fragmentShaderPath );
 	if( status == false )
 		return status;
 
@@ -74,6 +79,9 @@ Game::EventHandler ( SDL_Event* event )
 			if( event->key.keysym.sym == SDLK_q )
 				m_IsRunning = false;
 
+			break;
+
+		case SDL_KEYUP:
 			if( event->key.keysym.sym == SDLK_e ){
 				if( m_Is3D )
 					m_Is3D = false;
@@ -81,6 +89,7 @@ Game::EventHandler ( SDL_Event* event )
 					m_Is3D = true;
 			}
 			break;
+
 	};
 
 	Window::Event( event );
@@ -174,6 +183,9 @@ void
 Game::CleanUp ()
 {
 	delete pTimer;
+
+	delete pShader;
+
 	delete pCube;
 	delete pStick;
 	delete pMonkey;

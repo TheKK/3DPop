@@ -25,7 +25,7 @@ bool
 Window::Init ( char* windowTitle, int width, int height )
 {
 	//Recored window aspect
-	m_WindowAspect = width / height;
+	m_WindowAspect = ( float )width / ( float )height;
 
 	//Initialize SDL
 	if( SDL_Init( SDL_INIT_EVERYTHING ) == -1 )
