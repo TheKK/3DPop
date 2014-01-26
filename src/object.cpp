@@ -7,7 +7,7 @@
 
 #include "object.h"
 
-Object::Object ( float x, float y, float z )
+Object::Object ( float x = 0, float y = 0, float z = 0 )
 {
 	//Initialize model matrix
 	for( int i = 0; i < 4; i++ )

@@ -31,7 +31,6 @@ Game::Init ()
 	char* vertexShaderPath = "shader/basicShader.vs";
 	char* fragmentShaderPath = "shader/basicShader.fs";
 
-
 	//Initialize window properties
 	status = Window::Init( screenTitle, screenWidth, screenHeight );
 	if( status == false )
@@ -43,30 +42,32 @@ Game::Init ()
 	if( status == false )
 		return status;
 
+	ObjectManager::Init( pShader->GetShaderProgram() );
+
 	//Initialize and setup cube object
-	pCube = new Object( 5, 5, 0 );
-	pCube->SetShader( pShader->GetShaderProgram() );
-	status = pCube->LoadOBJ( "obj/cube.obj" );
-	if( status == false )
-		return status;
+	//pCube = new Object( 5, 5, 0 );
+	//pCube->SetShader( pShader->GetShaderProgram() );
+	//status = pCube->LoadOBJ( "obj/cube.obj" );
+	//if( status == false )
+		//return status;
 
-	pStick = new Object(-5, 5, 0 );
-	pStick->SetShader( pShader->GetShaderProgram() );
-	status = pStick->LoadOBJ( "obj/stick.obj" );
-	if( status == false )
-		return status;
+	//pStick = new Object(-5, 5, 0 );
+	//pStick->SetShader( pShader->GetShaderProgram() );
+	//status = pStick->LoadOBJ( "obj/stick.obj" );
+	//if( status == false )
+		//return status;
 
-	pSphere = new Object(-5,-5, 0 );
-	pSphere->SetShader( pShader->GetShaderProgram() );
-	status = pSphere->LoadOBJ( "obj/sphere.obj" );
-	if( status == false )
-		return status;
+	//pSphere = new Object(-5,-5, 0 );
+	//pSphere->SetShader( pShader->GetShaderProgram() );
+	//status = pSphere->LoadOBJ( "obj/sphere.obj" );
+	//if( status == false )
+		//return status;
 
-	pMonkey = new Object( 5,-5, 0 );
-	pMonkey->SetShader( pShader->GetShaderProgram() );
-	status = pMonkey->LoadOBJ( "obj/monkey.obj" );
-	if( status == false )
-		return status;
+	//pMonkey = new Object( 5,-5, 0 );
+	//pMonkey->SetShader( pShader->GetShaderProgram() );
+	//status = pMonkey->LoadOBJ( "obj/monkey.obj" );
+	//if( status == false )
+		//return status;
 
 	return status;
 }
@@ -115,10 +116,12 @@ Game::Render ()
 		pShader->SetColorMask( true, false, false, true );
 		pShader->SetRight();
 
-		pMonkey->Draw();
-		pSphere->Draw();
-		pStick->Draw();
-		pCube->Draw();
+		ObjectManager::Draw();
+
+		//pMonkey->Draw();
+		//pSphere->Draw();
+		//pStick->Draw();
+		//pCube->Draw();
 
 		pShader->SetColorMask( true, true, true, true );
 
@@ -132,19 +135,24 @@ Game::Render ()
 		pShader->SetColorMask( false, false ,true, true );
 		pShader->SetLeft();
 
-		pMonkey->Draw();
-		pSphere->Draw();
-		pStick->Draw();
-		pCube->Draw();
+		ObjectManager::Draw();
+
+		//pMonkey->Draw();
+		//pSphere->Draw();
+		//pStick->Draw();
+		//pCube->Draw();
 
 		pShader->SetColorMask( true, true, true, true );
 	}
 	else{
-		pMonkey->Draw();
-		pSphere->Draw();
-		pStick->Draw();
-		pCube->Draw();
+		ObjectManager::Draw();
+
+		//pMonkey->Draw();
+		//pSphere->Draw();
+		//pStick->Draw();
+		//pCube->Draw();
 	}
+
 	Window::Present();
 }
 

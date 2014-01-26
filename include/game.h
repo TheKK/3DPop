@@ -16,6 +16,7 @@
 #include "shader.h"
 #include "object.h"
 #include "scriptManager.h"
+#include "objectManager.h"
 
 class Game
 {

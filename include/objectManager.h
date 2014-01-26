@@ -9,7 +9,13 @@
 #define OBJECTMANAGER_H
 
 #include <iostream>
+#include <cstdlib>
+#include <GL/glew.h>
 #include "object.h"
+
+extern "C" {
+#include <lua5.2/lua.hpp>
+}
 
 using namespace std;
 
@@ -19,14 +25,18 @@ class ObjectManager
 		ObjectManager();
 		~ObjectManager();
 
-		void Init();
-		void Draw();
-		void CleanUp();
+		static bool Init( GLuint shaderProgram );
+		static void Draw();
+		static void CleanUp();
 	private:
-		Object* pCube;
-		Object* pStick;
-		Object* pMonkey;
-		Object* pSphere;
+		static lua_State* m_LuaState;
+
+		static Object* pCube;
+		static Object* pStick;
+		static Object* pMonkey;
+		static Object* pSphere;
+
+		static int DrawObject( lua_State* L );
 };
 
 #endif
